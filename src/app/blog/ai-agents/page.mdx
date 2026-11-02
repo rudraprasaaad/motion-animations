@@ -1,0 +1,94 @@
+# AI Agents: From Chatbots to Software That Gets Things Done
+
+For a long time, working with AI meant typing a prompt and reading a reply. You asked, it answered, and you did the rest yourself. AI agents change that. Instead of only _telling_ you what to do, an agent can plan, take actions, check the results and keep going until the job is finished.
+
+## What is an AI agent?
+
+An AI agent is a system where a language model runs in a loop with access to tools. It is given a goal, decides what to do next, acts, looks at what happened, and repeats until it is done.
+
+A plain chatbot looks like this:
+
+```text
+prompt -> model -> answer
+```
+
+An agent looks like this:
+
+```text
+goal -> plan -> act -> observe -> (repeat) -> result
+```
+
+The difference is the loop. The model's output is no longer the end of the story. It becomes the input to the next step.
+
+## The building blocks
+
+Most agents are made of the same few parts:
+
+- **Model:** the reasoning engine that decides what to do next.
+- **Tools:** functions the agent can call, such as searching the web, reading files, running code or calling an API.
+- **Memory:** the context the agent carries between steps, and sometimes between sessions.
+- **Instructions:** the system prompt that defines its role, limits and style.
+- **Loop:** the control flow that keeps going until the goal is met or a stop condition is hit.
+
+## A minimal agent loop
+
+The core idea fits in a few lines. This is a simplified sketch, not production code:
+
+```ts
+async function runAgent(goal: string) {
+  const messages = [{ role: "user", content: goal }];
+
+  for (let step = 0; step < 10; step++) {
+    const reply = await model.generate({ messages, tools });
+
+    // The model is done: return its final answer
+    if (!reply.toolCalls.length) return reply.text;
+
+    // Otherwise run each requested tool and feed the results back in
+    for (const call of reply.toolCalls) {
+      const result = await tools[call.name](call.args);
+      messages.push({ role: "tool", content: JSON.stringify(result) });
+    }
+  }
+
+  throw new Error("Agent did not finish within the step limit");
+}
+```
+
+Notice the step limit. Every agent needs a hard stop, otherwise a confused model can loop forever and burn through your budget.
+
+## Where agents work well
+
+Agents shine when a task has many steps, the steps depend on earlier results, and the path is not known up front.
+
+- **Coding assistants:** read a codebase, edit files, run tests and fix failures.
+- **Research:** search many sources, compare them and write a summary.
+- **Customer support:** look up an order, check policy and draft or issue a reply.
+- **Data analysis:** query a database, build charts and explain the findings.
+- **Workflow automation:** move information between tools without manual copy-paste.
+
+## Where they struggle
+
+Agents are powerful, but they are not magic. A few honest limitations:
+
+1. **Compounding errors.** A small mistake in step two can quietly poison steps three to ten.
+2. **Cost and latency.** Every loop iteration is another model call, so long tasks add up.
+3. **Unpredictability.** The same goal can take different paths on different runs.
+4. **Overconfidence.** Models can state wrong things fluently, and an agent may act on them.
+
+## Building agents that you can trust
+
+A few habits make a big difference:
+
+- **Start simple.** If a single prompt or a fixed workflow solves the problem, use that. Add the agent loop only when the task truly needs flexibility.
+- **Give tools clear names and descriptions.** The model chooses tools by reading them, so vague tools lead to wrong calls.
+- **Keep the human in the loop for risky actions.** Ask for approval before sending emails, spending money or deleting data.
+- **Limit permissions.** Give the agent the smallest set of access it needs.
+- **Log every step.** When something goes wrong, a trace of thoughts, tool calls and results is the fastest way to debug it.
+- **Evaluate with real examples.** Build a small test set of tasks and measure success, not just vibes.
+
+## What comes next
+
+Agents are getting better at long tasks, using computers like a person would, and working together as teams of specialized agents. The interesting shift is not that models are smarter, but that we are giving them the ability to _do_ things.
+
+The best way to understand agents is to build a small one. Pick a boring task you repeat every week, give a model one or two tools, and watch the loop run. You will learn more from that than from any article, including this one.
