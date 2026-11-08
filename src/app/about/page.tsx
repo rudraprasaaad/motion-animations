@@ -1,4 +1,6 @@
+import { Collage } from "@/components/collage";
 import { Container } from "@/components/container";
+import { TimeLine } from "@/components/timeline";
 
 export default function AboutPage() {
   return (
@@ -13,6 +15,15 @@ export default function AboutPage() {
           development, I enjoy building user-centric applications that make a
           difference.
         </p>
+        <p className="text-secondary max-w-lg pt-4 text-sm md:text-sm">
+          I love to travel and explore new places. I'm a big fan of nature and
+          adventure. I'm also a big fan of technology an innovation.
+        </p>
+        <Collage />
+        <p className="text-secondary max-w-lg pt-4 text-sm md:text-sm">
+          Here's a timeline of my life achievements.
+        </p>
+        <TimeLine />
       </Container>
     </div>
   );
