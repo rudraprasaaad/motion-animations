@@ -1,67 +1,74 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import Image from "next/image";
+import { Suspense } from "react";
 import { Container } from "@/components/container";
+import { getBlogFrontMatterBySlug, getSingleBlog } from "@/utils/mdx";
+import { redirect } from "next/navigation";
 
-import fs from "fs/promises";
-import path from "path";
+export const metadata: Metadata = {
+  title: "All blogs - Seishiro Nagi",
+  description: "thinking is pain in the ass.",
+};
 
-import { MDXRemote } from "next-mdx-remote/rsc";
-import rehypePrettyCode from "rehype-pretty-code";
-
-const BLOG_DIR = path.join(process.cwd(), "src", "data");
-
-async function getBlog(slug: string) {
-  try {
-    return await fs.readFile(path.join(BLOG_DIR, `${slug}.mdx`), "utf-8");
-  } catch {
-    return null;
-  }
-}
-
-export async function generateStaticParams() {
-  const files = await fs.readdir(BLOG_DIR);
-  return files
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => ({ slug: file.replace(/\.mdx$/, "") }));
-}
-
-export async function generateMetadata({
+export async function generateMetaData({
   params,
-}: PageProps<"/blog/[slug]">): Promise<Metadata> {
-  const { slug } = await params;
-  const source = await getBlog(slug);
-  const title = source?.match(/^#\s+(.+)$/m)?.[1];
+}: {
+  params: {
+    slug: string;
+  };
+}) {
+  const frontmatter = await getBlogFrontMatterBySlug(params.slug);
 
+  if (!frontmatter) {
+    return {
+      title: "Blog not found",
+    };
+  }
   return {
-    title: title ? `${title} - Seishiro Nagi` : "Blog - Seishiro Nagi",
+    title: frontmatter.title + " Seishrou Nagi ",
+    description: frontmatter.description,
   };
 }
 
-export default async function SingleBlog({
-  params,
-}: PageProps<"/blog/[slug]">) {
-  const { slug } = await params;
-  const source = await getBlog(slug);
-
-  if (!source) notFound();
-
+export default function SingleBlogPage({ params }: PageProps<"/blog/[slug]">) {
   return (
-    <div className="min-h-screen flex items-start justify-start">
-      <Container className="px-10 md:pt-20 md:pb-10 min-h-screen prose">
-        <MDXRemote
-          source={source}
-          options={{
-            mdxOptions: {
-              rehypePlugins: [
-                [
-                  rehypePrettyCode,
-                  { theme: "github-dark", keepBackground: true },
-                ],
-              ],
-            },
-          }}
-        />
+    <div className="flex min-h-screen items-start justify-start">
+      <Container className="min-h-[200vh] px-10 md:pt-20 md:pb-10">
+        <Suspense
+          fallback={<p className="text-sm text-secondary">Loading...</p>}
+        >
+          <BlogPost params={params} />
+        </Suspense>
       </Container>
     </div>
+  );
+}
+
+async function BlogPost({
+  params,
+}: {
+  params: PageProps<"/blog/[slug]">["params"];
+}) {
+  const { slug } = await params;
+  const blog = await getSingleBlog(slug);
+
+  if (!blog) {
+    redirect("/blog");
+  }
+
+  return (
+    <>
+      {blog.frontmatter.image ? (
+        <Image
+          src={blog.frontmatter.image}
+          alt={blog.frontmatter.title ?? "Blog cover"}
+          width={1600}
+          height={900}
+          loading="eager"
+          className="mb-8 aspect-video w-full rounded-xl object-cover"
+        />
+      ) : null}
+      <div className="prose mx-auto">{blog.content}</div>
+    </>
   );
 }
