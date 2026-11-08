@@ -1,0 +1,72 @@
+---
+title: 'Design Engineering'
+description: 'Design engineering is the practice of deciding how an interface should feel by building it, not by handing a picture to someone else.'
+image: '/images/blog/design-engineering.webp'
+date: '2026-11-08'
+---
+
+# Design Engineering
+
+Most product work splits in two. Someone draws the screen, and someone else makes it run. The drawing is treated as the decision, and the code is treated as the delivery. Design engineering refuses that split. The interface is decided in the material it will actually ship in: type, layout, motion, and the states nobody put in the mock.
+
+A design engineer is not a designer who learned a framework, and not an engineer who has opinions about padding. The job is the loop between the two. You change the thing, use it, and change it again before the idea hardens into a spec.
+
+## What you are actually making
+
+A picture of a screen is a guess. The running screen is the product. Spacing that looks even in a file can feel cramped once real text arrives. A button that looks obvious in a still frame can be easy to miss once the page is moving. Empty, loading, and error states are part of the design, even when they never appear in the first mock.
+
+Design engineering treats those as the work, not as cleanup:
+
+- **The default state.** What a person sees with real data, not with "Lorem ipsum" and a perfect name.
+- **The waiting state.** What happens in the half second before the answer arrives.
+- **The failure state.** What the screen says when the request does not.
+- **The small screen.** The same decision, with less room.
+
+If those are invented later, they will look invented.
+
+## The loop
+
+The useful loop is short:
+
+```text
+intent -> build a thin version -> use it -> adjust -> repeat
+```
+
+"Thin" matters. You do not build the whole product to learn that a control is in the wrong place. You build the one interaction you are unsure about, at the real size, with the real type, and you click it. Then you keep the parts that survived contact with your hands.
+
+This is slower than drawing a rectangle and faster than debating the rectangle for a week. The argument ends when someone can use the thing.
+
+## Taste is a set of constraints
+
+Taste sounds personal. In a product it is mostly a set of decisions you stop remaking.
+
+- **Type.** One family, a few sizes, a clear rule for which size means what.
+- **Space.** A small scale, used the same way every time, so rhythm is a default and not a negotiation.
+- **Color.** A quiet palette, and one accent that means "you can act here."
+- **Motion.** Movement that explains a change. If nothing changed, nothing should move.
+
+A design engineer writes these down where the code can enforce them. A token in a file is a decision the next screen does not have to relitigate. A one-off value in a component is a decision that will drift.
+
+## Where the craft shows
+
+The difference is rarely a new visual style. It shows up in the details a screenshot hides.
+
+1. **Focus.** You can move through the screen without a pointer, and you can see where you are.
+2. **Hit area.** The thing you tap is the size of a finger, not the size of the icon.
+3. **Feedback.** A press looks pressed. A save tells you it saved. A destructive action asks first.
+4. **Speed.** The interaction feels immediate because the work that can wait does not sit on the click.
+5. **Language.** The words on the button match the thing that happens next.
+
+None of these require a new library. They require someone who will not call the screen done while they are still true only in the file.
+
+## How to practice it
+
+You do not need a new title to work this way.
+
+- **Start from a real task.** "Let someone reschedule" is a design problem. "Make a card" is not.
+- **Build the awkward state first.** Loading and empty will shape the layout more honestly than the happy path.
+- **Use it on the device it is for.** A desktop window is a poor judge of a phone.
+- **Keep the system smaller than the urge to decorate.** If a new size or color does not earn a name, it does not earn a place.
+- **Review the running UI, not the picture of it.** Sit with the person who will use it and watch their hands, not their comments on the mock.
+
+Design engineering is a bias toward the made thing. Draw when drawing is the fastest way to think. Then build the thought, use it, and let the interface tell you what the drawing got wrong.
