@@ -5,6 +5,7 @@ import { Container } from "../container";
 import Link from "next/link";
 import {
   motion,
+  useMotionTemplate,
   useMotionValueEvent,
   useScroll,
   useTransform,
@@ -37,7 +38,7 @@ export const Navbar = () => {
   const [scrolled, setScrolled] = useState<boolean>(false);
 
   const y = useTransform(scrollY, [0, 100], [0, 10]);
-  const width = useTransform(scrollY, [0, 100], ["50%", "40%"]);
+  const width = useTransform(scrollY, [0, 100], ["55%", "50%"]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 20) {
@@ -59,7 +60,7 @@ export const Navbar = () => {
           duration: 0.3,
           ease: "linear",
         }}
-        className="flex fixed top-0 z-50 inset-x-0 w-full max-w-4xl mx-auto items-center justify-between rounded-full py-2 px-4 dark:bg-white bg-neutral-900"
+        className="flex fixed backdrop-blur-sm top-0 z-50 inset-x-0 w-full max-w-4xl mx-auto items-center justify-between rounded-full py-2 px-4 dark:bg-white bg-neutral-900"
       >
         <Link href="/">
           <Image
