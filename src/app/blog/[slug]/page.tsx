@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Suspense } from "react";
+import { Link } from "next-view-transitions";
+import { Suspense, type ReactNode } from "react";
 import { Container } from "@/components/container";
-import { getBlogFrontMatterBySlug, getSingleBlog } from "@/utils/mdx";
+import {
+  getBlogFrontMatterBySlug,
+  getSingleBlog,
+  type FrontMatter,
+} from "@/utils/mdx";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
@@ -30,6 +35,60 @@ export async function generateMetaData({
   };
 }
 
+const truncate = (str: string, length: number) => {
+  return str.length > length ? str.substring(0, length) + "..." : str;
+};
+
+export function BlogPost({
+  slug,
+  frontmatter,
+  content,
+}: {
+  slug: string;
+  frontmatter: Partial<FrontMatter>;
+  content?: ReactNode;
+}) {
+  const image = frontmatter.image ? (
+    <img
+      src={frontmatter.image}
+      alt={frontmatter.title ?? "Blog cover"}
+      loading={content ? "eager" : "lazy"}
+      className="rounded-2xl object-cover mb-20 max-h-96 w-full max-w-2xl mx-auto shadow-xl"
+    />
+  ) : null;
+
+  if (content) {
+    return (
+      <>
+        {image}
+        <div className="prose mx-auto">{content}</div>
+      </>
+    );
+  }
+
+  return (
+    <Link href={`/blog/${slug}`}>
+      {image}
+      <div className="flex items-center justify-between">
+        <h2 className="text-primary text-base font-bold tracking-tight">
+          {frontmatter.title}
+        </h2>
+        <p className="text-secondary text-sm md:text-sm">
+          {new Date(frontmatter.date || "").toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}
+        </p>
+      </div>
+      <p className="text-secondary max-w-lg pt-2 text-sm md:text-sm">
+        {truncate(frontmatter.description || "", 150)}
+      </p>
+    </Link>
+  );
+}
+
 export default function SingleBlogPage({ params }: PageProps<"/blog/[slug]">) {
   return (
     <div className="flex min-h-screen items-start justify-start">
@@ -37,14 +96,14 @@ export default function SingleBlogPage({ params }: PageProps<"/blog/[slug]">) {
         <Suspense
           fallback={<p className="text-sm text-secondary">Loading...</p>}
         >
-          <BlogPost params={params} />
+          <SingleBlog params={params} />
         </Suspense>
       </Container>
     </div>
   );
 }
 
-async function BlogPost({
+async function SingleBlog({
   params,
 }: {
   params: PageProps<"/blog/[slug]">["params"];
@@ -57,18 +116,10 @@ async function BlogPost({
   }
 
   return (
-    <>
-      {blog.frontmatter.image ? (
-        <Image
-          src={blog.frontmatter.image}
-          alt={blog.frontmatter.title ?? "Blog cover"}
-          width={1600}
-          height={900}
-          loading="eager"
-          className="mb-8 aspect-video w-full rounded-xl object-cover"
-        />
-      ) : null}
-      <div className="prose mx-auto">{blog.content}</div>
-    </>
+    <BlogPost
+      slug={slug}
+      frontmatter={blog.frontmatter}
+      content={blog.content}
+    />
   );
 }

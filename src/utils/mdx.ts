@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import { compileMDX } from "next-mdx-remote/rsc";
 import path from "path";
 
-type FrontMatter = {
+export type FrontMatter = {
   title: string;
   description: string;
   date: string;
@@ -53,7 +53,7 @@ export const getBlogs = async () => {
       const frontmatter = await getBlogFrontMatterBySlug(slug);
       return {
         slug,
-        ...frontmatter,
+        frontmatter,
       };
     }),
   );

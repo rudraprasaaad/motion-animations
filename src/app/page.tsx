@@ -1,5 +1,6 @@
 import { Container } from "@/components/container";
 import { LandingBlogs } from "@/components/landing-blogs";
+import ProjectsPage from "./projects/page";
 import { Projects } from "@/components/projects";
 
 export default function Home() {
