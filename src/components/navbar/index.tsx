@@ -53,13 +53,15 @@ export const Navbar = () => {
         }}
         className="flex fixed top-0 z-50 inset-x-0 w-full max-w-4xl mx-auto items-center justify-between rounded-full py-2 px-4 dark:bg-white bg-neutral-900"
       >
-        <Image
-          className="h-10 w-10 rounded-full"
-          src="/avatar.webp"
-          height="100"
-          width="100"
-          alt="Avatar"
-        />
+        <Link href="/">
+          <Image
+            className="h-10 w-10 rounded-full"
+            src="/avatar.webp"
+            height="100"
+            width="100"
+            alt="Avatar"
+          />
+        </Link>
 
         <div className="flex items-center">
           {navItems.map((item, idx) => (
