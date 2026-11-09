@@ -1,4 +1,5 @@
 import { BlogPost } from "@/app/blog/[slug]/page";
+import { SubHeading } from "@/components/subheading";
 import { getBlogs } from "@/utils/mdx";
 
 export const LandingBlogs = async () => {
@@ -6,9 +7,7 @@ export const LandingBlogs = async () => {
 
   return (
     <div className="">
-      <p className="text-secondary max-w-lg pt-4 text-sm md:text-sm">
-        I love writing thigs down.
-      </p>
+      <SubHeading>I love writing thigs down.</SubHeading>
       <div className="flex flex-col gap-10 pt-4">
         {allBlogs.map(
           (blog) =>

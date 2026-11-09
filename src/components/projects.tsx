@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "motion/react";
 import Link from "next/link";
+import { SubHeading } from "@/components/subheading";
 
 export const projects = [
   {
@@ -38,9 +39,10 @@ export const projects = [
 export const Projects = () => {
   return (
     <div className="py-10">
-      <p className="text-secondary max-w-lg pt-4 text-sm md:text-sm">
-        I love building web apps and products that can impact millions of lives.
-      </p>
+      <SubHeading>
+        I love building web apps and products that can impact millions of
+        lives.
+      </SubHeading>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
         {projects.map((project, idx) => (
           <motion.div

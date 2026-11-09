@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { Inter, Geist_Mono, Geist } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
-import { ViewTransitions } from "next-view-transitions";
+import { ViewTransitions } from "@/components/view-transitions";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -28,12 +28,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={cn(inter.variable, geistMono.variable, "font-sans", geist.variable)}>
       <body className="antialiased bg-neutral-700 dark:bg-neutral-100">
-        <Suspense fallback={null}>
-          <ViewTransitions>
-            <Navbar />
-            {children}
-          </ViewTransitions>
-        </Suspense>
+        <ViewTransitions>
+          <Navbar />
+          <Suspense fallback={null}>{children}</Suspense>
+        </ViewTransitions>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Link } from "next-view-transitions";
+import { Link } from "@/components/view-transitions";
 import { Suspense, type ReactNode } from "react";
 import { Container } from "@/components/container";
 import {
