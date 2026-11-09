@@ -1,0 +1,58 @@
+---
+title: 'Forms That Keep the Work'
+description: 'A form fails the moment it throws away what a person already typed. Keep the work, say what is wrong, and let them finish.'
+image: '/images/blog/forms-that-keep-the-work.webp'
+date: '2026-08-07'
+---
+
+# Forms That Keep the Work
+
+Most forms are designed for the case where every field is valid. That case is the easy one. The form people remember is the one that ate a paragraph because a single field was wrong, or the one that said "something went wrong" and left them to find it.
+
+A good form has one job: hold what the person entered until you can accept it, and be specific about the part you cannot accept yet.
+
+## Do not lose the draft
+
+The expensive part of a form is not the request. It is the attention that filled it in. Treat that as data you are not allowed to drop.
+
+- Keep the values on the screen when validation fails.
+- Keep them when the network fails, and let the person try again without retyping.
+- If the form is long, save a draft before they ask you to. A person who has to think about saving will not.
+
+Clearing the form on error is a way of saying that your validation matters more than their time. It does not.
+
+## Point at the field
+
+"Please fix the errors below" is not an error. An error names the field, says what is wrong, and says it next to the field.
+
+```text
+Email
+[ ada@example ]
+Enter an email with a domain, like ada@example.com.
+```
+
+A banner at the top can summarize. It should not be the only place the message exists, because the person is looking at the field. Connect the message to the input so a screen reader lands on both, and so a pointer user does not have to correlate a list with a column of boxes.
+
+## Validate at the right time
+
+Validating every keystroke is hostile. Waiting until submit to mention a format you could have explained in the label is also hostile. A reasonable split:
+
+1. **Constraints in the label.** "Use 8 or more characters" belongs where the person is about to type, not after they failed.
+2. **Format after they leave the field.** Check the email when focus moves on, not on the first character.
+3. **The whole form on submit.** Required fields, conflicts between fields, and anything only the server knows.
+
+The server check is the real one. The client check is a courtesy so the round trip is rare. Never skip the server check because the client already said yes.
+
+## The button has a job too
+
+While the request is in flight, the button should show that, and it should not send a second copy. After success, say what happened in the same place the person was looking. "Saved" next to the button beats a toast that appears somewhere else and disappears on its own.
+
+After failure, leave the values, leave the focus near the problem, and leave the person able to edit. A disabled form with a generic red sentence is a dead end.
+
+## The empty form is part of the design
+
+Placeholders are not labels. A placeholder vanishes as soon as someone types, which is the moment they needed the hint. Labels stay. Placeholders, if you use them, show an example, not the name of the field.
+
+Group fields in the order the person thinks, not the order the database stores them. Ask for the minimum. Every extra field is a chance for the form to be abandoned, and an abandoned form is a form that failed even though your validation passed.
+
+Keep the work. Name the problem. Let them finish.

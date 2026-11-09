@@ -12,7 +12,7 @@ export const LandingBlogs = async () => {
         I love writing thigs down.
       </SectionHeading>
       <div className="flex flex-col gap-10 pt-4">
-        {allBlogs.map(
+        {allBlogs.slice(0, 3).map(
           (blog, idx) =>
             blog.frontmatter && (
               <MotionDiv

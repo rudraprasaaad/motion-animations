@@ -12,11 +12,7 @@ export const SectionHeading = ({
   className?: string;
 }) => {
   return (
-    <h2
-      className={cn(
-        "text-neutral-400 font-normal max-w-lg pt-4 text-sm md:text-sm",
-      )}
-    >
+    <h2 className={cn("max-w-lg font-normal max-w-lg pt-4 text-sm md:text-sm")}>
       {children.split(" ").map((word, idx) => (
         <motion.span
           initial={{

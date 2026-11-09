@@ -45,7 +45,7 @@ export const getSingleBlog = async (slug: string) => {
 export const getBlogs = async () => {
   "use cache";
 
-  const files = await fs.readdir(path.join(process.cwd(), "src/data"));
+  const files = await fs.readdir(path.join(process.cwd(), "src", "data"));
 
   const allBlogs = await Promise.all(
     files.map(async (file) => {
@@ -58,14 +58,18 @@ export const getBlogs = async () => {
     }),
   );
 
-  return allBlogs;
+  return allBlogs.sort((a, b) => {
+    const aDate = a.frontmatter?.date ?? "";
+    const bDate = b.frontmatter?.date ?? "";
+    return aDate < bDate ? 1 : aDate > bDate ? -1 : 0;
+  });
 };
 
 export const getBlogFrontMatterBySlug = async (slug: string) => {
   "use cache";
 
   const singleBlog = await fs.readFile(
-    path.join(process.cwd(), "src/data", `${slug}.mdx`),
+    path.join(process.cwd(), "src", "data", `${slug}.mdx`),
     "utf-8",
   );
 

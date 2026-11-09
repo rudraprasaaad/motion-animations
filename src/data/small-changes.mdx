@@ -1,0 +1,54 @@
+---
+title: 'Small Changes'
+description: 'A small change is easier to review, easier to revert, and more likely to teach you something before you have built on top of a mistake.'
+image: '/images/blog/small-changes.webp'
+date: '2026-09-19'
+---
+
+# Small Changes
+
+A large change feels productive because the diff is long. Most of that length is risk. A small change is one idea, landed on its own, with a way back. It is slower to describe and faster to trust.
+
+This is not a rule about line counts. A migration can be long and still be one idea. A twenty-line change can be three ideas wearing a trench coat. The test is whether a reviewer can say what the change does in one sentence, and whether you can revert it without reverting something else you still want.
+
+## One idea at a time
+
+Split the work at the points where the product could safely stop.
+
+- A refactor that does not change behavior, landed before the behavior change.
+- The new path behind a flag, before you send anyone down it.
+- The data shape, before the screen that depends on it.
+- The fix, before the cleanup you noticed while fixing it.
+
+Each of those can ship alone. Together they make a review into an archaeological dig. The reviewer starts skimming, and skimming is how the bug gets a second pair of eyes and still ships.
+
+## What a small change includes
+
+Small does not mean incomplete. A change that compiles and fails in production is not small. It is unfinished.
+
+```text
+the behavior
+the test that fails without it
+the note that says why
+nothing else
+```
+
+The note matters more as the change gets smaller, not less. "Fix null" is not a reason. "Return an empty list when the account has no projects, so the page renders" is a reason. The next person, who may be you in a month, needs the reason more than the diff.
+
+## Review gets better
+
+A reviewer can hold a small change in their head. They will notice the wrong condition, the missing state, the name that lies. They cannot do that for a diff that also renames a folder, reformats a file, and adds a feature.
+
+You get a better review by asking for less of someone's attention at once. You also get it sooner, which means you find out you were wrong before the next three changes are built on top.
+
+## When large is honest
+
+Some work cannot be sliced without lying. A protocol change, a rewrite of a parser, a cutover with no middle state. Say so at the top of the change, point at the order you want it read, and keep unrelated edits out so the size is the size of the problem.
+
+Even then, you can usually land the scaffolding first: the types, the tests for the current behavior, the empty module the new code will live in. Those are small, and they make the large change less large.
+
+## The habit
+
+Before you push, ask what you could remove and still solve the problem you sat down for. Remove that, and save it for the next change. The branch that tries to be the whole project becomes the branch nobody wants to review, including you.
+
+Ship the smallest thing that is true. Then ship the next one.

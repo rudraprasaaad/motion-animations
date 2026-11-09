@@ -1,0 +1,61 @@
+---
+title: 'How to Read a Codebase'
+description: 'Reading a codebase is a search for the path a real action takes, not a tour of every folder.'
+image: '/images/blog/read-a-codebase.webp'
+date: '2026-04-03'
+---
+
+# How to Read a Codebase
+
+The first hour in an unfamiliar repo is usually wasted on the wrong question. People open the folder tree and try to understand all of it. A codebase is not a book. It is a set of paths, and you only need the path that matches the thing you are about to change.
+
+Start from a behavior you can name. "A person saves a draft." "The home page lists the posts." Then find where that behavior enters the program, and follow it until it leaves.
+
+## Start at the edge
+
+The edge is wherever the outside world touches the code.
+
+- A route, a button handler, a command, a queue consumer.
+- The test that describes the behavior, if one exists.
+- The type of the input. Types are a map of what the program is willing to accept.
+
+Follow calls inward. Do not branch into every helper. If a function's name answers your question, leave it closed. Open it when the name and the result disagree, or when your change has to live there.
+
+## What to write down
+
+You will not remember the path. Write the short version while it is still clear:
+
+```text
+click Save
+  -> submit handler
+    -> validate
+    -> request
+      -> store
+    -> update the screen
+```
+
+Five lines is enough. The value is the order, and the names of the functions you would open again. A diagram of the whole system can wait until you have walked three real paths. By then the diagram draws itself.
+
+## What to ignore at first
+
+- **The framework boilerplate.** Generated files tell you how the project starts, not how the product works.
+- **Old experiments.** A folder named `v2` or `new` is a claim, not a fact. Check what the running path imports.
+- **Utilities with no callers on your path.** They matter later, when you are about to duplicate one.
+- **Style arguments.** Naming and formatting are real, and they are not the first question.
+
+If you cannot tell whether a file is alive, search for who imports it. An unimported file is a story about the past.
+
+## Questions that save time
+
+Ask these before you ask a person, and ask a person when the code will not say.
+
+1. **What is the source of truth?** The screen, the database, and the cache can disagree. One of them is allowed to win.
+2. **What happens when it fails?** The happy path is usually the obvious one. The product is the failure path too.
+3. **What is tested on purpose?** A test named after a bug is a scar. Read the scar before you touch the skin.
+4. **What is about to change?** A large commented block, a flag, or a type with two shapes often means a migration is in progress. Your change should join it, not start a third.
+
+## Leave it easier to read
+
+The courtesy you wanted on the way in is the courtesy you leave behind. Name the function after the behavior. Keep the path you walked in one place if it was scattered for no reason. Add the test that would have saved you the hour.
+
+You do not need to understand the whole repo to change it safely. You need one path, the places it can fail, and a note good enough that the next person can start further along than you did.

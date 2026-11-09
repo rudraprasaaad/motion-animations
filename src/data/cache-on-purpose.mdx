@@ -1,0 +1,61 @@
+---
+title: 'Cache on Purpose'
+description: 'A cache is a copy you are willing to be briefly wrong about. Decide that on purpose, or you will discover it during an outage.'
+image: '/images/blog/cache-on-purpose.webp'
+date: '2026-06-18'
+---
+
+# Cache on Purpose
+
+Caching is not a performance trick you sprinkle on at the end. It is a decision that some answer may be older than the truth, and that this is acceptable for a while. If you cannot say how old is too old, you do not have a cache. You have a bug with a timeout.
+
+The useful question is not "can we cache this?" It is "what is allowed to be stale, and who gets hurt when it is?"
+
+## Three different copies
+
+People say "cache" for at least three mechanisms. They fail in different ways.
+
+- **A memo.** The same inputs, the same process, a remembered output. It dies with the process. It is safe when the function is pure.
+- **A shared cache.** Many requests read one stored answer. It is fast, and it is shared, which means one bad write misleads everyone.
+- **A browser cache.** The copy lives on a machine you do not control. Invalidating it is a suggestion, not a command.
+
+Mixing these up is how a "quick cache" becomes a support ticket. A memo of a user-specific value is fine. A shared cache of a user-specific value, keyed only by the path, is a leak.
+
+## Name the contract
+
+Before you store the copy, write down four things:
+
+```text
+key:    what makes two requests the same
+value:  exactly what you store, and what you refuse to store
+fresh:  how long a hit is allowed to win
+miss:   what you do when the store is down
+```
+
+The last line is the one people skip. A cache that is required for the page to render is not a cache. It is a database you forgot to operate. If the store is down, the request should either compute the answer or fail in a way you chose.
+
+## What is worth storing
+
+Cache the work that is expensive, repeated, and the same for many readers.
+
+- A rendered page that changes a few times a day.
+- A lookup of public data that is costly to compute and cheap to recompute if you are wrong.
+- A response from a third party that rate-limits you.
+
+Do not cache to hide a slow query you have not looked at. The cache will make the slow query rare, which makes it harder to notice, and then the cache will expire and the query will take the site down at a busy moment.
+
+## Invalidation, said plainly
+
+"Invalidation is hard" is true, and it is also a way to avoid a decision. You have three honest options:
+
+1. **Time.** The copy expires. You accept a window of staleness. Pick the window from the product, not from a round number.
+2. **Event.** The write that changes the truth deletes or replaces the copy. This is correct when you control the write.
+3. **Version.** The key includes a version, so old copies are never read. This is useful when you can change the key and walk away.
+
+If none of the three is acceptable, do not cache it. Compute it, or store it as real data with a real owner.
+
+## A habit that keeps it boring
+
+Log the hit, the miss, and the age of the value you served. When someone says the page is wrong, you can answer "that copy is four minutes old" instead of guessing. A cache you cannot observe is a cache you will be afraid to delete, and a cache you are afraid to delete is already too important.
+
+Cache the expensive, public, repeatable things. Say how stale they may be. Make sure the site still stands when the copy is gone.

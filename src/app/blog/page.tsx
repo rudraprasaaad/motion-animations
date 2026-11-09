@@ -29,6 +29,7 @@ export default async function BlogsPage() {
                   key={blog.slug}
                   slug={blog.slug}
                   frontmatter={blog.frontmatter}
+                  showImage={false}
                 />
               ),
           )}

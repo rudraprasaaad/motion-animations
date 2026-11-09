@@ -1,0 +1,62 @@
+---
+title: 'Keyboard-First Interfaces'
+description: 'A keyboard-first interface is one you can finish without hunting for the pointer, and it is usually faster for the people who live in it.'
+image: '/images/blog/keyboard-first.webp'
+date: '2026-02-12'
+---
+
+# Keyboard-First Interfaces
+
+A lot of software is designed for the first minute, when someone is still finding their way with a mouse. The people who stay are the ones who do the same task every day. For them, every trip to the pointer is a small tax. A keyboard-first interface is one where the common path never leaves the keys.
+
+This is not "add some shortcuts later." Shortcuts on top of a pointer interface are a second product. Keyboard-first means the keyboard path is the one you design, and the pointer still works for the people who want it.
+
+## What "first" actually means
+
+You can tell which path was designed by trying to finish a real task with the keyboard only.
+
+- Can you reach the thing you came to do without tabbing through the chrome?
+- Can you see where focus is, without guessing?
+- Can you leave, cancel, and go back without a click?
+- Does the same key mean the same thing on the next screen?
+
+If the answer is no, the keyboard is a fallback. Fallbacks get the leftover attention, and they feel like it.
+
+## A small map
+
+Most of a keyboard interface is a handful of promises:
+
+```text
+focus is visible
+tab moves in the order a person reads
+enter does the obvious action
+escape leaves the current layer
+one letter jumps to the thing you do most
+```
+
+The letter is the part people remember. The rest is what makes the letter safe. A shortcut that fires while you are typing in a field is not a shortcut. It is a bug with a key binding.
+
+## Where it pays off
+
+Keyboard-first is worth the work when the same person repeats a short task.
+
+- **Triage.** An inbox, a queue, a list of reviews. Next, open, decide, next.
+- **Editing.** Moving between fields, saving, and jumping to the error.
+- **Navigation.** A command palette beats a nested menu once you know the names.
+- **Creation.** Writing, sketching a query, filling a form you have filled before.
+
+It pays off less on a page someone sees once. A marketing page does not need a command palette. A settings screen that someone opens twice a year can be reached with a pointer and still be fine.
+
+## The details that make it feel finished
+
+1. **Show the keys.** A shortcut nobody can discover is a private joke. Put the hint on the control, or in a palette that lists them.
+2. **Do not steal typing.** If a text field is focused, letters belong to the field. Global shortcuts should use a modifier, or wait until focus is on the list.
+3. **Keep focus honest.** Opening a dialog moves focus into it. Closing it puts focus back where it was. A person should never have to click just to start typing again.
+4. **Make the order obvious.** Tab order follows the visual order. A pretty layout that tabs in a random path will be blamed on "keyboard users" when the layout is the problem.
+5. **Confirm the dangerous one.** A single key should not delete. The fast path is for the common action, not the irreversible one.
+
+## How to check it
+
+Unplug the mouse, or sit on your hands, and do the task you claim the screen is for. Time it. Note every moment you wanted to reach for the pointer, and fix that moment. Then watch someone else do it without a tour.
+
+The point is not to win an argument about input devices. The point is that the people who use the product all day should be able to stay in the rhythm of the work. The pointer can stay on the desk.
