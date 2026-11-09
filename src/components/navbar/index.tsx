@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import { Container } from "../container";
-import Link from "next/link";
+import { Link } from "@/components/view-transitions";
 import {
   motion,
-  useMotionTemplate,
   useMotionValueEvent,
   useScroll,
   useTransform,

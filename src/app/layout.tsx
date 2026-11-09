@@ -5,8 +5,9 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { ViewTransitions } from "@/components/view-transitions";
 import { cn } from "@/lib/utils";
+import { Footer } from "@/components/navbar/footer";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,11 +27,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={cn(inter.variable, geistMono.variable, "font-sans", geist.variable)}>
+    <html
+      lang="en"
+      className={cn(
+        inter.variable,
+        geistMono.variable,
+        "font-sans",
+        geist.variable,
+      )}
+    >
       <body className="antialiased bg-neutral-700 dark:bg-neutral-100">
         <ViewTransitions>
           <Navbar />
           <Suspense fallback={null}>{children}</Suspense>
+          <Footer />
         </ViewTransitions>
       </body>
     </html>
