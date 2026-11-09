@@ -3,47 +3,18 @@
 import Image from "next/image";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { SubHeading } from "@/components/subheading";
+import { Project, projects as defaultProjects } from "@/constants/projects";
+import { SectionHeading } from "./section-heading";
 
-export const projects = [
-  {
-    title: "Linear",
-    src: "/projects/linear.webp",
-    description:
-      "A product development system for planning and building software with fast, keyboard-first workflows.",
-    href: "https://linear.app",
-  },
-  {
-    title: "Vercel",
-    src: "/projects/vercel.webp",
-    description:
-      "A frontend cloud platform for deploying and scaling web apps with zero configuration.",
-    href: "https://vercel.com",
-  },
-  {
-    title: "Cal.com",
-    src: "/projects/cal.webp",
-    description:
-      "An open-source scheduling platform for booking meetings without the back-and-forth.",
-    href: "https://cal.com",
-  },
-  {
-    title: "Stripe",
-    src: "/projects/stripe.webp",
-    description:
-      "Payments infrastructure for accepting online payments and managing revenue at any scale.",
-    href: "https://stripe.com",
-  },
-];
-
-export const Projects = () => {
+export const Projects = ({
+  projects = defaultProjects,
+}: {
+  projects: Project[];
+}) => {
   return (
     <div className="py-10">
-      <SubHeading>
-        I love building web apps and products that can impact millions of
-        lives.
-      </SubHeading>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+      <SectionHeading delay={0.2}>A lifetime in projects.</SectionHeading>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4">
         {projects.map((project, idx) => (
           <motion.div
             initial={{
@@ -65,13 +36,15 @@ export const Projects = () => {
             className="group relative mb-4"
           >
             <Link href={project.href}>
-              <Image
-                src={project.src}
-                width={300}
-                height={300}
-                alt={project.title}
-                className="w-full h-72 rounded-xl object-cover group-hover:scale-[1.02] transition duration-200"
-              />
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl">
+                <Image
+                  src={project.src}
+                  alt={project.title}
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover object-top transition duration-200 group-hover:scale-[1.02]"
+                />
+              </div>
               <h2 className="font-bold tracking-tight mt-2 z-20 dark:text-neutral-500 text-neutral-40">
                 {project.title}
               </h2>

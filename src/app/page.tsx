@@ -1,9 +1,10 @@
 import { Container } from "@/components/container";
 import { LandingBlogs } from "@/components/landing-blogs";
-import ProjectsPage from "./projects/page";
 import { Projects } from "@/components/projects";
 import { Heading } from "@/components/heading";
 import { SubHeading } from "@/components/subheading";
+import { projects } from "@/constants/projects";
+import { Testimonials } from "@/components/testimonials";
 
 export default function Home() {
   return (
@@ -14,8 +15,9 @@ export default function Home() {
           i&apos;m a swe with a passion for building scalable and efficient
           systems. I&apos;m Currently working as swe at Google.
         </SubHeading>
-        <Projects />
+        <Projects projects={projects.slice(0, 3)} />
         <LandingBlogs />
+        <Testimonials />
       </Container>
     </div>
   );

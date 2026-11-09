@@ -43,12 +43,15 @@ export function BlogPost({
   slug,
   frontmatter,
   content,
+  showImage = true,
 }: {
   slug: string;
   frontmatter: Partial<FrontMatter>;
   content?: ReactNode;
+  showImage?: boolean;
 }) {
-  const image = frontmatter.image ? (
+  const image =
+    showImage && frontmatter.image ? (
     <img
       src={frontmatter.image}
       alt={frontmatter.title ?? "Blog cover"}
