@@ -1,10 +1,29 @@
 "use client";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const ContactForm = () => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("handle submit clicked!");
+
+    const { name, email, message } = formData;
+    if (!name || !email || !message) {
+      toast.error("Please Fill all the fields.");
+      return;
+    }
+
+    const response = await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve("API call successful");
+      }, 1000);
+    });
+
+    if (response) {
+      toast.success("Form submitted successfully!.");
+    } else {
+      toast.error("Something went wrong.");
+    }
   };
 
   const [formData, setFormData] = useState({
@@ -72,6 +91,12 @@ export const ContactForm = () => {
           className="resize-none shadow-input px-2 py-1 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
+      <button
+        type="submit"
+        className="rounded-md bg-primary px-4 py-2 text-white"
+      >
+        Send message
+      </button>
     </form>
   );
 };

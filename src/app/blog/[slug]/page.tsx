@@ -92,7 +92,7 @@ export function BlogPost({
 export default function SingleBlogPage({ params }: PageProps<"/blog/[slug]">) {
   return (
     <div className="flex min-h-screen items-start justify-start">
-      <Container className="min-h-[200vh] px-10 md:pt-20 md:pb-10">
+      <Container className="min-h-screen px-10 md:pt-20 md:pb-10">
         <Suspense
           fallback={<p className="text-sm text-secondary">Loading...</p>}
         >

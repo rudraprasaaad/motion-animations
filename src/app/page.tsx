@@ -8,7 +8,7 @@ import { SubHeading } from "@/components/subheading";
 export default function Home() {
   return (
     <div className="min-h-screen flex items-start justify-start">
-      <Container className="min-h-[200vh] px-10 md:pt-20 md:pb-10">
+      <Container className="min-h-screen px-10 md:pt-20 md:pb-10">
         <Heading>Seishirou Nagi</Heading>
         <SubHeading>
           i&apos;m a swe with a passion for building scalable and efficient

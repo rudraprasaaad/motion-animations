@@ -6,6 +6,7 @@ import { Navbar } from "@/components/navbar";
 import { ViewTransitions } from "@/components/view-transitions";
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/navbar/footer";
+import { Toaster } from "sonner";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="antialiased bg-neutral-700 dark:bg-neutral-100">
         <ViewTransitions>
+          <Toaster position="top-center" />
           <Navbar />
           <Suspense fallback={null}>{children}</Suspense>
           <Footer />
